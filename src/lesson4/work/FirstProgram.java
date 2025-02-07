@@ -19,12 +19,14 @@ public class FirstProgram {
     public static final int moveDown = 2;
 
     public static char[][] map;
+    public static char[][] invisibleMap;
     public static int mapWidth;
     public static int mapHeight;
     public static int minSizeMap = 3;
     public static int maxSizeMap = 6;
     public static char emptyCell = '_';
     public static char exitCell = '0';
+    public static char readyCell = '+';
     public static boolean isFoundExit = false;
 
     public static char player = '@';
@@ -98,7 +100,6 @@ public class FirstProgram {
                 }
                 default: {
                     System.out.println("Wrong direction!");
-                    map[currentY][currentX] = player;
                 }
             }
         } while (!isValidMove(currentX, currentY, playerX, playerY));
@@ -121,8 +122,9 @@ public class FirstProgram {
             System.out.println("Player found exit!");
         }
 
-        map[playerY][playerX] = player;
         map[currentY][currentX] = emptyCell;
+        invisibleMap[currentY][currentX] = readyCell;
+        invisibleMap[playerY][playerX] = player;
     }
 
     public static boolean isValidMove(int currentX, int currentY, int nextX, int nextY) {
@@ -139,10 +141,12 @@ public class FirstProgram {
         mapWidth = getRandomValue(minSizeMap, maxSizeMap);
         mapHeight = getRandomValue(minSizeMap, maxSizeMap);
         map = new char[mapHeight][mapWidth];
+        invisibleMap = new char[mapHeight][mapWidth];
 
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 map[i][j] = emptyCell;
+                invisibleMap[i][j] = emptyCell;
             }
         }
 //        System.out.println("Map created. Size " + mapHeight + "x" + mapWidth);
@@ -152,7 +156,7 @@ public class FirstProgram {
     public static void createPlayer() {
         playerX = getRandomValue(0, mapWidth - 1);
         playerY = getRandomValue(0, mapHeight - 1);
-        map[playerY][playerX] = player;
+        invisibleMap[playerY][playerX] = player;
         System.out.printf("Player spawn in [%s;%s]\n", playerY, playerX);
     }
 
@@ -211,7 +215,7 @@ public class FirstProgram {
         System.out.println("========== MAP ==========");
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
-                System.out.print(map[i][j] + "|");
+                System.out.print(invisibleMap[i][j] + "|");
             }
             System.out.println();
         }
