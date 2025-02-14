@@ -109,22 +109,22 @@ public class FirstProgram {
     }
 
     public static void playerNextMoveAction(int currentX, int currentY, int nextX, int nextY) {
-        if(map[nextY][nextX] == healthPack) {
+        if (invisibleMap[nextY][nextX] == healthPack) {
             playerHealth += healthPackValue;
             System.out.printf("Player HP +%s. Now hp is %s\n", healthPackValue, playerHealth);
         }
-        if (map[nextY][nextX] == enemy) {
+        if (invisibleMap[nextY][nextX] == enemy) {
             playerHealth -= enemyPower;
             System.out.printf("Warning! Player HP -%s. Now hp is %s\n", enemyPower, playerHealth);
         }
-        if (map[nextY][nextX] == exitCell) {
+        if (invisibleMap[nextY][nextX] == exitCell) {
             isFoundExit = true;
             System.out.println("Player found exit!");
         }
 
-        map[currentY][currentX] = emptyCell;
-        invisibleMap[currentY][currentX] = readyCell;
-        invisibleMap[playerY][playerX] = player;
+        invisibleMap[currentY][currentX] = emptyCell;
+        map[currentY][currentX] = readyCell;
+        map[playerY][playerX] = player;
     }
 
     public static boolean isValidMove(int currentX, int currentY, int nextX, int nextY) {
@@ -156,7 +156,7 @@ public class FirstProgram {
     public static void createPlayer() {
         playerX = getRandomValue(0, mapWidth - 1);
         playerY = getRandomValue(0, mapHeight - 1);
-        invisibleMap[playerY][playerX] = player;
+        map[playerY][playerX] = player;
         System.out.printf("Player spawn in [%s;%s]\n", playerY, playerX);
     }
 
@@ -170,7 +170,7 @@ public class FirstProgram {
                 x = random.nextInt(mapWidth);
                 y = random.nextInt(mapHeight);
             } while (!isEmptyCell(y, x));
-            map[y][x] = healthPack;
+            invisibleMap[y][x] = healthPack;
         }
         System.out.printf("HealthPacks spawn. Count: %s \n", count);
     }
@@ -187,7 +187,7 @@ public class FirstProgram {
                 x = random.nextInt(mapWidth);
                 y = random.nextInt(mapHeight);
             } while (!isEmptyCell(y, x));
-            map[y][x] = enemy;
+            invisibleMap[y][x] = enemy;
         }
         System.out.printf("Enemies spawn. Count: %s. Health: %s. Power: %s \n",
                 enemyCount,
@@ -203,19 +203,19 @@ public class FirstProgram {
             x = random.nextInt(mapWidth);
             y = random.nextInt(mapHeight);
         } while (!isEmptyCell(y, x));
-        map[y][x] = exitCell;
+        invisibleMap[y][x] = exitCell;
         System.out.println("Exit spawn");
     }
 
     public static boolean isEmptyCell(int y, int x) {
-        return map[y][x] == emptyCell;
+        return map[y][x] == emptyCell && invisibleMap[y][x] == emptyCell;
     }
 
     public static void printMap() {
         System.out.println("========== MAP ==========");
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
-                System.out.print(invisibleMap[i][j] + "|");
+                System.out.print(map[i][j] + "|");
             }
             System.out.println();
         }
@@ -225,8 +225,6 @@ public class FirstProgram {
     public static int getRandomValue(int minBound, int maxBound) {
         return random.nextInt(maxBound - minBound + 1) + minBound;
     }
-
-
 }
 
 /*
