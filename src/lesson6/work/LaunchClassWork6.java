@@ -1,9 +1,9 @@
-package lseeon6.work;
+package lesson6.work;
 
-import lseeon6.work.entities.Actor;
-import lseeon6.work.models.MedPack;
-import lseeon6.work.models.Player;
-import lseeon6.work.models.Warrior;
+import lesson6.work.entities.Actor;
+import lesson6.work.models.MedPack;
+import lesson6.work.models.Player;
+import lesson6.work.models.Warrior;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

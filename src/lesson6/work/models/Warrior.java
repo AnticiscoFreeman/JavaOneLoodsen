@@ -1,6 +1,6 @@
-package lseeon6.work.models;
+package lesson6.work.models;
 
-import lseeon6.work.entities.Enemy;
+import lesson6.work.entities.Enemy;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

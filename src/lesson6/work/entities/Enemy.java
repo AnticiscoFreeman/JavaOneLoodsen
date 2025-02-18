@@ -1,6 +1,4 @@
-package lseeon6.work.entities;
-
-import lseeon6.work.entities.Actor;
+package lesson6.work.entities;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

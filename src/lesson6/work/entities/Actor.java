@@ -1,4 +1,4 @@
-package lseeon6.work.entities;
+package lesson6.work.entities;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
