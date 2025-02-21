@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         setupWindow();
-        this.guiMap = new GuiMap();
+        this.guiMap = new GuiMap(this);
         this.guiPanel = new GuiPanel(this);
 
         add(guiMap);
@@ -38,5 +38,13 @@ public class MainWindow extends JFrame {
         setTitle("My First UI App");
         setLocation(windowPosX, windowPosY);
         setResizable(true);
+    }
+
+    public void startGame() {
+        guiMap.startNewGame();
+    }
+
+    public void recordLog(String message) {
+        guiPanel.recordLog(message);
     }
 }

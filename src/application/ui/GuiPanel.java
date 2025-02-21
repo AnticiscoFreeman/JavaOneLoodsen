@@ -2,7 +2,7 @@ package application.ui;
 
 import application.MainWindow;
 import application.ui.parts.AppControlArea;
-import application.ui.parts.EnemyInfoArea;
+import application.ui.parts.GameInfoArea;
 import application.ui.parts.PlayerControlArea;
 import application.ui.parts.PlayerInfoArea;
 
@@ -20,8 +20,10 @@ public class GuiPanel extends JPanel {
 
     private AppControlArea appControlArea;
     private PlayerInfoArea playerInfoArea;
-    private EnemyInfoArea enemyInfoArea;
+    private GameInfoArea gameInfoArea;
     private PlayerControlArea playerControlArea;
+    private JTextArea gameLog;
+    private JScrollPane scrollLogManager;
 
     public GuiPanel(MainWindow window) {
         this.window = window;
@@ -29,9 +31,27 @@ public class GuiPanel extends JPanel {
         setBackground(Color.BLACK);
 
         this.appControlArea = new AppControlArea(this);
+        this.playerInfoArea = new PlayerInfoArea(this);
+        this.gameInfoArea = new GameInfoArea(this);
+        this.playerControlArea = new PlayerControlArea(this);
+
+        this.gameLog = new JTextArea();
+        this.gameLog.setEditable(false);
+        this.gameLog.setLineWrap(true);
+        this.scrollLogManager = new JScrollPane(gameLog);
 
         add(appControlArea);
+        add(playerInfoArea);
+        add(gameInfoArea);
+        add(playerControlArea);
+        add(scrollLogManager);
     }
 
+    public void recordLog(String message) {
+        gameLog.append(message + "\n");
+    }
 
+    public void startGame() {
+        window.startGame();
+    }
 }
