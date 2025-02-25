@@ -13,8 +13,8 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
 
-    private int windowWidth = 800;
-    private int windowHeight = 600;
+    private int windowWidth = 1024;
+    private int windowHeight = 768;
     private int windowPosX = 100;
     private int windowPosY = 200;
 
@@ -46,5 +46,14 @@ public class MainWindow extends JFrame {
 
     public void recordLog(String message) {
         guiPanel.recordLog(message);
+    }
+
+    public void refreshGameInfo(int health, int power, String position,
+                                int enemyCount, int medPackCount, String mapSize) {
+        guiPanel.refreshGameInfo(health, power, position, enemyCount, medPackCount, mapSize);
+    }
+
+    public void directionPlayer(int keyCode) {
+        guiMap.directionPlayer(keyCode);
     }
 }

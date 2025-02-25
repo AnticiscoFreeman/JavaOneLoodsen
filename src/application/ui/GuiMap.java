@@ -31,7 +31,6 @@ public class GuiMap extends JPanel {
     private static final int CELL_READY = 5;
 
     public int[][] map;
-    public int[][] invisibleMap;
     public int mapWidth;
     public int mapHeight;
     public int minSizeMap = 3;
@@ -43,9 +42,15 @@ public class GuiMap extends JPanel {
     private Enemy enemy;
     private MedPack medPack;
 
+    private boolean isGameStart;
+
+    private int cellWidth;
+    private int cellHeight;
+
     public GuiMap(MainWindow window) {
         this.window = window;
         setBackground(Color.ORANGE);
+        this.isGameStart = false;
     }
 
     /**
@@ -58,56 +63,127 @@ public class GuiMap extends JPanel {
         createHealthPack();
         createEnemies();
         createExit();
+        this.isGameStart = true;
+        refreshGameInfo();
     }
 
-    private void directionPlayer(int keyButton) {
-        int currentX = player.getX();
-        int currentY = player.getY();
-        int playerChooseMove;
+    private void render(Graphics g) {
+        if (!isGameStart) {
+            return;
+        }
+        paintMap(g);
 
-        do {
-            switch (keyButton) {
-                case MOVE_UP: {
-                    player.moveUp();
-                    break;
+        for (int y = 0; y < mapHeight; y++) {
+            for (int x = 0; x < mapWidth; x++) {
+
+                if (map[y][x] == CELL_EMPTY) {
+                    continue;
                 }
-                case MOVE_LEFT: {
-                    player.moveLeft();
-                    break;
+
+                if (map[y][x] == CELL_PLAYER) {
+                    g.setColor(Color.GREEN);
+                    g.fillRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
                 }
-                case MOVE_RIGHT: {
-                    player.moveRight();
-                    break;
-                }
-                case MOVE_DOWN: {
-                    player.moveDown();
-                    break;
-                }
-                default: {
-                    System.out.println("Wrong direction!");
+
+                if (map[y][x] == CELL_READY) {
+                    g.setColor(Color.GRAY);
+                    g.fillRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
                 }
             }
-        } while (!isValidMove(currentX, currentY, player.getX(), player.getY()));
+        }
+    }
 
+    private void refreshGameInfo() {
+        window.refreshGameInfo(
+                player.getHealth(),
+                player.getPower(),
+                player.getPosition(),
+                Enemy.COUNT,
+                MedPack.COUNT,
+                String.format("%s:%s", mapWidth, mapHeight)
+        );
+    }
+
+    private void paintMap(Graphics g) {
+        int myWidth = getWidth();
+        int myHeight = getHeight();
+
+        cellWidth = myWidth / mapWidth;
+        cellHeight = myHeight / mapHeight;
+
+        g.setColor(Color.BLACK);
+
+        for (int i = 0; i <= mapHeight; i++) {
+            int y = i * cellHeight;
+            g.drawLine(0, y, myWidth, y);
+        }
+
+        for (int i = 0; i <= mapWidth; i++) {
+            int x = i * cellWidth;
+            g.drawLine(x, 0, x, myHeight);
+        }
+    }
+
+    public void directionPlayer(int keyButton) {
+        if (!isGameStart) {
+            return;
+        }
+
+        int currentX = player.getX();
+        int currentY = player.getY();
+
+        switch (keyButton) {
+            case MOVE_UP: {
+                player.moveUp();
+                break;
+            }
+            case MOVE_LEFT: {
+                player.moveLeft();
+                break;
+            }
+            case MOVE_RIGHT: {
+                player.moveRight();
+                break;
+            }
+            case MOVE_DOWN: {
+                player.moveDown();
+                break;
+            }
+        }
+
+        if (!isValidMove(currentX, currentY, player.getX(), player.getY())) {
+            return;
+        }
         playerNextMoveAction(currentX, currentY, player.getX(), player.getY());
+        refreshGameInfo();
+        repaint();
 
+        if (!player.isAlive()) {
+            this.isGameStart = false;
+            JOptionPane.showMessageDialog(this, "Player is dead! Game Over!");
+        }
+
+        if (isFoundExit) {
+            this.isGameStart = false;
+            JOptionPane.showMessageDialog(this, "You found exit! Game Over!");
+        }
     }
 
     private void playerNextMoveAction(int currentX, int currentY, int nextX, int nextY) {
-        if (invisibleMap[nextY][nextX] == CELL_MED_PACK) {
+        if (map[nextY][nextX] == CELL_MED_PACK) {
             player.health(medPack.getValue());
+            MedPack.COUNT--;
             window.recordLog(String.format("Player HP +%s. Now hp is %s", medPack.getValue(), player.getHealth()));
         }
-        if (invisibleMap[nextY][nextX] == CELL_ENEMY) {
+        if (map[nextY][nextX] == CELL_ENEMY) {
+            Enemy.COUNT--;
             player.getDamage(enemy.getPower());
             window.recordLog(String.format("Warning! Player HP -%s. Now hp is %s", enemy.getPower(), player.getHealth()));
         }
-        if (invisibleMap[nextY][nextX] == CELL_EXIT) {
+        if (map[nextY][nextX] == CELL_EXIT) {
             isFoundExit = true;
             window.recordLog("Player found exit!");
         }
-
-        invisibleMap[currentY][currentX] = CELL_EMPTY;
         map[currentY][currentX] = CELL_READY;
         map[player.getY()][player.getX()] = CELL_PLAYER;
     }
@@ -125,21 +201,19 @@ public class GuiMap extends JPanel {
         mapWidth = Tools.getRandomValue(minSizeMap, maxSizeMap);
         mapHeight = Tools.getRandomValue(minSizeMap, maxSizeMap);
         map = new int[mapHeight][mapWidth];
-        invisibleMap = new int[mapHeight][mapWidth];
 
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 map[i][j] = CELL_EMPTY;
-                invisibleMap[i][j] = CELL_EMPTY;
             }
         }
-        window.recordLog(String.format("Map created. Size %sx%s", mapHeight, mapWidth));
+        window.recordLog(String.format("Map created. Size %sx%s", mapWidth, mapHeight));
     }
 
     private void createPlayer() {
         player.setPosition(Tools.getRandomValue(0, mapWidth - 1), Tools.getRandomValue(0, mapHeight - 1));
         map[player.getY()][player.getX()] = CELL_PLAYER;
-        window.recordLog(String.format("Player spawn in [%s;%s]", player.getY(), player.getX()));
+        window.recordLog(String.format("Player spawn in [%s]", player.getPosition()));
     }
 
     public void createHealthPack() {
@@ -150,7 +224,7 @@ public class GuiMap extends JPanel {
             do {
                 medPack.setPosition(Tools.random.nextInt(mapWidth), Tools.random.nextInt(mapHeight));
             } while (!isEmptyCell(medPack.getY(), medPack.getX()));
-            invisibleMap[medPack.getY()][medPack.getX()] = CELL_MED_PACK;
+            map[medPack.getY()][medPack.getX()] = CELL_MED_PACK;
         }
         window.recordLog(String.format("HealthPacks spawn. Count: %s", MedPack.COUNT));
     }
@@ -164,10 +238,10 @@ public class GuiMap extends JPanel {
                 enemy.setPosition(Tools.random.nextInt(mapWidth),
                         Tools.random.nextInt(mapHeight));
             } while (!isEmptyCell(enemy.getY(), enemy.getX()));
-            invisibleMap[enemy.getY()][enemy.getX()] = CELL_ENEMY;
+            map[enemy.getY()][enemy.getX()] = CELL_ENEMY;
         }
         window.recordLog(String.format("Enemies spawn. Count: %s. Health: %s. Power: %s",
-                Enemy.COUNT , enemy.getHealth(), enemy.getPower()));
+                Enemy.COUNT, enemy.getHealth(), enemy.getPower()));
     }
 
     private void createExit() {
@@ -178,23 +252,18 @@ public class GuiMap extends JPanel {
             x = Tools.random.nextInt(mapWidth);
             y = Tools.random.nextInt(mapHeight);
         } while (!isEmptyCell(y, x));
-        invisibleMap[y][x] = CELL_EXIT;
+        map[y][x] = CELL_EXIT;
         window.recordLog("Exit spawn");
     }
 
     private boolean isEmptyCell(int y, int x) {
-        return map[y][x] == CELL_EMPTY && invisibleMap[y][x] == CELL_EMPTY;
+        return map[y][x] == CELL_EMPTY;
     }
 
-    private void printMap() {
-        System.out.println("========== MAP ==========");
-        for (int i = 0; i < mapHeight; i++) {
-            for (int j = 0; j < mapWidth; j++) {
-                System.out.print(map[i][j] + "|");
-            }
-            System.out.println();
-        }
-        System.out.println("=========================");
-    }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        render(g);
+    }
 }

@@ -18,22 +18,29 @@ public class GameInfoArea extends JPanel {
     private GuiPanel guiPanel;
 
     private JLabel areaTitle;
-    private JLabel enemyCount;
-    private JLabel medPackCount;
-    private JLabel sizeMap;
+    private JLabel enemyCountLabel;
+    private JLabel medPackCountLabel;
+    private JLabel sizeMapLabel;
 
     public GameInfoArea(GuiPanel guiPanel) {
         this.guiPanel = guiPanel;
         setLayout(new GridLayout(4,1));
 
         areaTitle = new JLabel("= Game Info =", SwingConstants.CENTER);
-        enemyCount = new JLabel(ENEMY_INFO_PREFIX + "-");
-        medPackCount = new JLabel(MED_PACK_INFO_PREFIX + "-");
-        sizeMap = new JLabel(SIZE_PREFIX + "-:-");
+        enemyCountLabel = new JLabel(ENEMY_INFO_PREFIX + "-");
+        medPackCountLabel = new JLabel(MED_PACK_INFO_PREFIX + "-");
+        sizeMapLabel = new JLabel(SIZE_PREFIX + "-:-");
 
         add(areaTitle);
-        add(enemyCount);
-        add(medPackCount);
-        add(sizeMap);
+        add(enemyCountLabel);
+        add(medPackCountLabel);
+        add(sizeMapLabel);
+    }
+
+    public void refreshInfo(int enemyCount, int medPackCount, String mapSize) {
+        enemyCountLabel.setText(ENEMY_INFO_PREFIX + enemyCount);
+        medPackCountLabel.setText(MED_PACK_INFO_PREFIX + medPackCount);
+        sizeMapLabel.setText(SIZE_PREFIX + mapSize);
+
     }
 }

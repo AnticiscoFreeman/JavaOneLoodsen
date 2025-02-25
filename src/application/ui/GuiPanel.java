@@ -51,7 +51,20 @@ public class GuiPanel extends JPanel {
         gameLog.append(message + "\n");
     }
 
+    public void clearLog() {
+        gameLog.setText("");
+    }
+
     public void startGame() {
         window.startGame();
+    }
+
+    public void refreshGameInfo(int health, int power, String position, int enemyCount, int medPackCount, String mapSize) {
+        playerInfoArea.refreshInfo(health, power, position);
+        gameInfoArea.refreshInfo(enemyCount, medPackCount, mapSize);
+    }
+
+    public void directionPlayer(int keyCode) {
+        window.directionPlayer(keyCode);
     }
 }

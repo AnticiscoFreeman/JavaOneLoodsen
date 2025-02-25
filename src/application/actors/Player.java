@@ -11,8 +11,8 @@ public class Player extends Actor {
     private int health;
 
     public Player() {
-        this.power = 100;
-        this.health = 15;
+        this.power = 15;
+        this.health = 100;
     }
 
     public int getPower() {
@@ -24,7 +24,7 @@ public class Player extends Actor {
     }
 
     public String getPosition() {
-        return String.format("%s:%s", x, y);
+        return String.format("%s:%s", x + 1, y + 1);
     }
 
     public void getDamage(int value) {
@@ -49,5 +49,9 @@ public class Player extends Actor {
 
     public void moveDown() {
         y += 1;
+    }
+
+    public boolean isAlive() {
+        return health > 0;
     }
 }

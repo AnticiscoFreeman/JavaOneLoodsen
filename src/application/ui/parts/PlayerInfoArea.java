@@ -34,4 +34,10 @@ public class PlayerInfoArea extends JPanel {
         add(playerStr);
         add(playerPosition);
     }
+
+    public void refreshInfo(int health, int power, String position) {
+        playerHp.setText(HP_PREFIX + health);
+        playerStr.setText(STR_PREFIX + power);
+        playerPosition.setText(POSITION_PREFIX + position);
+    }
 }

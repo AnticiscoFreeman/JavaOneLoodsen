@@ -28,6 +28,7 @@ public class AppControlArea extends JPanel {
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                panel.clearLog();
                 panel.startGame();
             }
         });

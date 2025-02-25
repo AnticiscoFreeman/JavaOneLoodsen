@@ -14,8 +14,8 @@ public class Enemy extends Actor{
     private int power;
 
     public Enemy() {
-        this.health = Tools.getRandomValue(Tools.ENEMY_MIN_VALUE, Tools.ENEMY_MIN_VALUE);
-        this.power = Tools.getRandomValue(Tools.ENEMY_MIN_VALUE, Tools.ENEMY_MIN_VALUE);
+        this.health = Tools.getRandomValue(Tools.ENEMY_MIN_VALUE, Tools.ENEMY_MAX_VALUE);
+        this.power = Tools.getRandomValue(Tools.ENEMY_MIN_VALUE, Tools.ENEMY_MAX_VALUE);
     }
 
     public int getHealth() {

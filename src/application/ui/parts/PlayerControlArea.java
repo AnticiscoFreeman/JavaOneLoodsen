@@ -1,9 +1,12 @@
 package application.ui.parts;
 
+import application.ui.GuiMap;
 import application.ui.GuiPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
@@ -25,9 +28,37 @@ public class PlayerControlArea extends JPanel {
         setLayout(new GridLayout(2, 3));
 
         btnMoveUp = new JButton("↑");
+        btnMoveUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                directionPlayer(GuiMap.MOVE_UP);
+                System.out.println("↑");
+            }
+        });
         btnMoveLeft = new JButton("←");
+        btnMoveLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                directionPlayer(GuiMap.MOVE_LEFT);
+                System.out.println("←");
+            }
+        });
         btnMoveRight = new JButton("→");
+        btnMoveRight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                directionPlayer(GuiMap.MOVE_RIGHT);
+                System.out.println("→");
+            }
+        });
         btnMoveDown = new JButton("↓");
+        btnMoveDown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                directionPlayer(GuiMap.MOVE_DOWN);
+                System.out.println("↓");
+            }
+        });
 
         add(new JPanel());
         add(btnMoveUp);
@@ -35,5 +66,9 @@ public class PlayerControlArea extends JPanel {
         add(btnMoveLeft);
         add(btnMoveDown);
         add(btnMoveRight);
+    }
+
+    public void directionPlayer(int keyCode) {
+        guiPanel.directionPlayer(keyCode);
     }
 }
