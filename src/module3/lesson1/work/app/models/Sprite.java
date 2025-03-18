@@ -31,6 +31,7 @@ public abstract class Sprite {
     public void setBottom(float bottom) {
         y = bottom - halfHeight;
     }
+
     public float getLeft() {
         return x - halfWidth;
     }
@@ -58,5 +59,18 @@ public abstract class Sprite {
     protected abstract void render(Canvas canvas, Graphics g);
     protected abstract void update(Canvas canvas, float deltaTime);
 
+    public boolean isColliding(Sprite other) {
+        float dx = Math.abs(this.x - other.x);
+        float dy = Math.abs(this.y - other.y);
+        float maxDistance = this.halfWidth + other.halfWidth;
+        return dx < maxDistance && dy < maxDistance;
+    }
+
+//    public boolean isColliding(Sprite other) {
+//        float dx = this.x - other.x;
+//        float dy = this.y - other.y;
+//        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+//        return distance < (this.halfWidth + other.halfWidth);
+//    }
 
 }

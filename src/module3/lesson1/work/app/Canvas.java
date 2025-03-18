@@ -10,10 +10,10 @@ import java.awt.*;
 
 public class Canvas extends JPanel {
 
-    private final Circles window;
+    private final CirclesApplication window;
     private long lastUpdateTime;
 
-    public Canvas(Circles window) {
+    public Canvas(CirclesApplication window) {
         this.window = window;
         this.lastUpdateTime = System.nanoTime();
     }

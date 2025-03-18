@@ -25,6 +25,25 @@ public class Circle extends Sprite {
         halfHeight = halfWidth;
     }
 
+    public Circle(int x, int y) {
+        this();
+        this.x = x;
+        this.y = y;
+    }
+
+    public float getVectorX() {
+        return vectorX;
+    }
+
+    public float getVectorY() {
+        return vectorY;
+    }
+
+    public void setVector(float vectorX, float vectorY) {
+        this.vectorX = vectorX;
+        this.vectorY = vectorY;
+    }
+
     @Override
     public void render(Canvas canvas, Graphics g) {
         g.setColor(color);
