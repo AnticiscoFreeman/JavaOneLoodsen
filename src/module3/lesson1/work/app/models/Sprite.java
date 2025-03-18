@@ -1,6 +1,6 @@
-package module3.lesson1.app.models;
+package module3.lesson1.work.app.models;
 
-import module3.lesson1.app.Canvas;
+import module3.lesson1.work.app.Canvas;
 
 import java.awt.*;
 

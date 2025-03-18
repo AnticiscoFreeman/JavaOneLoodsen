@@ -1,7 +1,6 @@
-package module3.lesson1;
+package module3.lesson1.work;
 
-import module3.lesson1.enums.DayType;
-import module3.lesson1.enums.FirstEnum;
+import module3.lesson1.work.enums.DayType;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

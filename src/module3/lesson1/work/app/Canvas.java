@@ -1,4 +1,4 @@
-package module3.lesson1.app;
+package module3.lesson1.work.app;
 
 import javax.swing.*;
 import java.awt.*;

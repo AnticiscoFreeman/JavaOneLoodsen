@@ -1,7 +1,7 @@
-package module3.lesson1.app.objects;
+package module3.lesson1.work.app.objects;
 
-import module3.lesson1.app.Canvas;
-import module3.lesson1.app.models.Sprite;
+import module3.lesson1.work.app.Canvas;
+import module3.lesson1.work.app.models.Sprite;
 
 import java.awt.*;
 

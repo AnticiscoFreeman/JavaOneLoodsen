@@ -1,10 +1,9 @@
-package module3.lesson1.app;
+package module3.lesson1.work.app;
 
-import module3.lesson1.app.objects.Circle;
+import module3.lesson1.work.app.objects.Circle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

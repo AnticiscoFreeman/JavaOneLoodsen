@@ -1,4 +1,4 @@
-package module3.lesson1.enums;
+package module3.lesson1.work.enums;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
