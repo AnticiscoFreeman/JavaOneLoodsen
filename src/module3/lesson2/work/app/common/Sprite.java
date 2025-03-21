@@ -1,4 +1,4 @@
-package module3.lesson2.app.common;
+package module3.lesson2.work.app.common;
 
 import java.awt.*;
 

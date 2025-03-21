@@ -1,6 +1,6 @@
-package module3.lesson2.app.common;
+package module3.lesson2.work.app.common;
 
-import module3.lesson2.app.GameWindow;
+import module3.lesson2.work.app.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;

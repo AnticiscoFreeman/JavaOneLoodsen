@@ -1,6 +1,6 @@
 package module3.lesson3.work.exceptions;
 
-import module3.lesson2.interfaces.CowObject;
+import module3.lesson2.work.interfaces.CowObject;
 
 import java.io.IOException;
 

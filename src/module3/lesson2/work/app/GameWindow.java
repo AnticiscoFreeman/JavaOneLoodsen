@@ -1,10 +1,9 @@
-package module3.lesson2.app;
+package module3.lesson2.work.app;
 
-import module3.lesson2.app.common.Canvas;
-import module3.lesson2.app.common.CanvasObject;
-import module3.lesson2.app.common.RenderListener;
-import module3.lesson2.app.objects.Circle;
-import module3.lesson2.app.objects.GameRectangle;
+import module3.lesson2.work.app.common.Canvas;
+import module3.lesson2.work.app.common.CanvasObject;
+import module3.lesson2.work.app.common.RenderListener;
+import module3.lesson2.work.app.objects.GameRectangle;
 
 import javax.swing.*;
 import java.awt.*;

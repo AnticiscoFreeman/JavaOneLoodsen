@@ -1,4 +1,4 @@
-package module3.lesson2.app;
+package module3.lesson2.work.app;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

@@ -1,4 +1,4 @@
-package module3.lesson2.interfaces;
+package module3.lesson2.work.interfaces;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

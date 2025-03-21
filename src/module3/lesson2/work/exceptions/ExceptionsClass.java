@@ -1,10 +1,7 @@
-package module3.lesson2.exceptions;
+package module3.lesson2.work.exceptions;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

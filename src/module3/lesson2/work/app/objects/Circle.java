@@ -1,7 +1,7 @@
-package module3.lesson2.app.objects;
+package module3.lesson2.work.app.objects;
 
-import module3.lesson2.app.common.Canvas;
-import module3.lesson2.app.common.Sprite;
+import module3.lesson2.work.app.common.Canvas;
+import module3.lesson2.work.app.common.Sprite;
 
 import java.awt.*;
 
@@ -10,7 +10,7 @@ import java.awt.*;
  * Date: 11.03.2025
  */
 
-public class GameRectangle extends Sprite {
+public class Circle extends Sprite {
 
     private float vectorX = (float) (100 + Math.random() * 250f);
     private float vectorY = (float) (100 + Math.random() * 250f);
@@ -20,7 +20,7 @@ public class GameRectangle extends Sprite {
             (int) (Math.random() * 255)
     );
 
-    public GameRectangle() {
+    public Circle() {
         halfWidth = 10 + (float)(Math.random() * 50f);
         halfHeight = halfWidth;
     }
@@ -28,7 +28,7 @@ public class GameRectangle extends Sprite {
     @Override
     public void render(Canvas canvas, Graphics g) {
         g.setColor(color);
-        g.fillRect((int) getLeft(),
+        g.fillOval((int) getLeft(),
                 (int) getTop(),
                 (int) getWidth(),
                 (int) getHeight()
