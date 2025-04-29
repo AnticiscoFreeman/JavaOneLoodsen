@@ -1,12 +1,15 @@
 package ru.evoloodsen;
 
-import com.codeborne.selenide.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import com.codeborne.selenide.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import ru.evoloodsen.pages.LoginPage;
+import ru.evoloodsen.pages.MainPage;
 
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.open;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
@@ -15,44 +18,46 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class TestClass {
 
-    private WebDriver driver;
+    private static final Logger logger = LoggerFactory.getLogger(TestClass.class);
 
-    @Test
-    public void loginInSite() throws InterruptedException {
+
+    private LoginPage loginPage;
+
+    private static final String ADMIN_LOGIN = "admin";
+    private static final String ADMIN_PASSWORD = "root";
+
+    @BeforeClass(alwaysRun = true)
+    public void precondition() {
+        logger.info("=== PREPARE TESTS START ===");
         Configuration.browser = "chrome";
         Configuration.pageLoadStrategy = "normal";
         Configuration.baseUrl = "http://localhost:12301/";
         Configuration.headless = false;
-
+        logger.info("=== PREPARE TESTS FINISH ===");
         open(Configuration.baseUrl);
-        Thread.sleep(3000);
+        logger.info("Open page {}", Configuration.baseUrl);
+    }
 
-        $(By.name("username")).click();
-        $(By.name("username")).sendKeys("admin");
+    @Test
+    public void loginInSite() {
+        loginPage = new LoginPage();
+        String nonLoginPopupMessage = loginPage.getAlertPopupText();
+        Assert.assertEquals(nonLoginPopupMessage, LoginPage.NON_LOGIN_MESSAGE);
 
-        $(By.name("password")).click();
-        $(By.name("password")).sendKeys("root");
+        MainPage mainPage = loginPage.enterLoginData(ADMIN_LOGIN)
+                .enterPasswordData(ADMIN_PASSWORD)
+                .pressLogin();
 
-        $(By.name("submit")).click();
+        String successPopupMessage = mainPage.getAlertPopupText();
+        String successPopupColor = mainPage.getSuccessPopupColor();
 
-        Thread.sleep(4000);
+        Assert.assertEquals(successPopupMessage, MainPage.SUCCESS_POPUP_TEXT);
+        Assert.assertEquals(successPopupColor, MainPage.SUCCESS_POPUP_COLOR);
 
-        String successLoginPopup = "div[role='alert']";
-        String expectedSuccessLoginPopupText = "You have been logged in successfully.";
-        String expectedSuccessLogoutPopupText = "You have been logged out successfully.";
+        loginPage = mainPage.clickLogoutButton();
 
-        String actualSuccessLoginPopupText = $(successLoginPopup).shouldHave(Condition.visible).innerText();
-        Assert.assertEquals(actualSuccessLoginPopupText, expectedSuccessLoginPopupText);
-
-        String logoutSelector = "li[data-testid='navbar_item']";
-
-        ElementsCollection navigationButtons = $$(By.cssSelector(logoutSelector));
-        navigationButtons.get(navigationButtons.size() - 1).click();
-
-        String actualSuccessLogoutPopupText = $(successLoginPopup).shouldHave(Condition.visible).innerText();
-        Assert.assertEquals(actualSuccessLogoutPopupText, expectedSuccessLogoutPopupText);
-
-        Thread.sleep(4000);
+        String logoutPopupMessage = loginPage.getAlertPopupText();
+        Assert.assertEquals(logoutPopupMessage, LoginPage.LOGOUT_POPUP_TEXT);
     }
 
 }

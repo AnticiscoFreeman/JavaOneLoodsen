@@ -1,4 +1,4 @@
-package ru.evoloodsen.patterns.pageObject;
+package module6.patterns.pageObject;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

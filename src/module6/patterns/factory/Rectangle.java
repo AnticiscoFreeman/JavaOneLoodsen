@@ -1,4 +1,4 @@
-package ru.evoloodsen.patterns.factory;
+package module6.patterns.factory;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

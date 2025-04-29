@@ -1,10 +1,8 @@
-package ru.evoloodsen.patterns;
+package module6.patterns;
 
-import ru.evoloodsen.patterns.builder.Employee;
-import ru.evoloodsen.patterns.facade.Phone;
-import ru.evoloodsen.patterns.factory.Shape;
-import ru.evoloodsen.patterns.factory.ShapeFactory;
-import ru.evoloodsen.patterns.factory.ShapeFactoryImpl;
+import module6.patterns.factory.Shape;
+import module6.patterns.factory.ShapeFactory;
+import module6.patterns.factory.ShapeFactoryImpl;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]

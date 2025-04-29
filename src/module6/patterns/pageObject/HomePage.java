@@ -1,4 +1,4 @@
-package ru.evoloodsen.patterns.pageObject;
+package module6.patterns.pageObject;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
@@ -16,7 +16,7 @@ public class HomePage {
 
     public HomePage fillAccountData(String text) {
         accountDataElement = new Combobox();
-        accountDataElement.fillData(text);
+//        accountDataElement.fillData(text);
         return this;
     }
 }

@@ -1,4 +1,4 @@
-package ru.evoloodsen.patterns.facade;
+package module6.patterns.facade;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
