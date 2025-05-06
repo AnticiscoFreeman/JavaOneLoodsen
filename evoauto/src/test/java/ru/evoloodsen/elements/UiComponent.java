@@ -12,8 +12,8 @@ import static com.codeborne.selenide.Selenide.$;
 
 public abstract class UiComponent {
 
-    private final By selfSelector;
-    private final SelenideElement element;
+    protected final By selfSelector;
+    protected final SelenideElement element;
 
     protected UiComponent(By selfSelector) {
         this.selfSelector = selfSelector;

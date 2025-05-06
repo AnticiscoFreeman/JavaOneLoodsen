@@ -1,52 +1,48 @@
 package ru.evoloodsen.pages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.evoloodsen.elements.PagePopup;
-
-import static com.codeborne.selenide.Selenide.$;
+import ru.evoloodsen.components.PagePopup;
+import ru.evoloodsen.elements.Button;
+import ru.evoloodsen.elements.UiComponentFactory;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
  * Date: 29.04.2025
  */
 
-public class MainPage {
+public class MainPage extends BasePage {
     private static final Logger logger = LoggerFactory.getLogger(MainPage.class);
 
-    private static final By POPUP = By.cssSelector("div[role='alert']");
-    private static final By NAVIGATION_BAR = By.cssSelector("nav[data-testid='navbar']");
-    private static final By NAV_BAR_BUTTON = By.cssSelector("li[data-testid='navbar_item']");
+    public static final By ADD_CONTACT_BUTTON = By.cssSelector("a[data-testid='add_contact']");
 
-    public static final String SUCCESS_POPUP_TEXT = "You have been logged in successfully.";
-    public static final String SUCCESS_POPUP_COLOR = "linear-gradient(rgb(223, 240, 216) 0px, rgb(200, 229, 188) 100%)";
+    private final Button addContactButton = UiComponentFactory.createButton(ADD_CONTACT_BUTTON);
 
-    private PagePopup popup;
 
     public MainPage() {
         logger.info("Navigate to MainPage");
     }
 
     public String getAlertPopupText() {
-        PagePopup pagePopup = new PagePopup(PagePopup.SELF);
-        return pagePopup.getElement().shouldHave(Condition.visible).getText();
+        return UiComponentFactory.createPagePopup(PagePopup.SELF)
+                .getElement()
+                .shouldHave(Condition.visible).getText();
     }
 
-    public LoginPage clickLogoutButton() {
-        SelenideElement navBar = $(NAVIGATION_BAR).shouldHave(Condition.visible);
-        ElementsCollection navBarButtons = navBar.findAll(NAV_BAR_BUTTON);
-        SelenideElement logoutButton = navBarButtons.get(navBarButtons.size() - 1);
-        String logoutButtonText = logoutButton.find("a").getText();
-        logoutButton.click();
-        logger.info("User click to [{}]", logoutButtonText);
-        return new LoginPage();
+    public LoginPage logout() {
+        return navigationBar.clickLogoutButton();
+    }
+
+    public AddContactPage goToAddContactPage() {
+        addContactButton.click();
+        return new AddContactPage();
     }
 
     public String getSuccessPopupColor() {
-        return $(POPUP).shouldHave(Condition.visible).getCssValue("background-image");
+        return UiComponentFactory.createPagePopup(PagePopup.SELF)
+                .getElement().shouldHave(Condition.visible)
+                .getCssValue("background-image");
     }
 }

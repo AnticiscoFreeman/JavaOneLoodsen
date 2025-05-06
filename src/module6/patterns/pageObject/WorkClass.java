@@ -8,18 +8,18 @@ package module6.patterns.pageObject;
 public class WorkClass {
 
     public static void main(String[] args) {
-        LoginPage loginPage = new LoginPage();
-        loginPage.fillLogin("LoginUser");
-        loginPage.fillPassword("PasswordUser");
-        loginPage.login();
-
-        HomePage login = loginPage
-                .fillLogin("Login")
-                .fillPassword("Password")
-                .login();
-
-        login.doSomething()
-                .doSomething()
-                .fillAccountData("Data");
+//        LoginPage loginPage = new LoginPage();
+//        loginPage.fillLogin("LoginUser");
+//        loginPage.fillPassword("PasswordUser");
+//        loginPage.login();
+//
+//        HomePage login = loginPage
+//                .fillLogin("Login")
+//                .fillPassword("Password")
+//                .login();
+//
+//        login.doSomething()
+//                .doSomething()
+//                .fillAccountData("Data");
     }
 }

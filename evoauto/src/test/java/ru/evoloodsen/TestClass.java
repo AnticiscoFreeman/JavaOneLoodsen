@@ -1,63 +1,43 @@
 package ru.evoloodsen;
 
-import com.codeborne.selenide.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import ru.evoloodsen.components.PagePopup;
+import ru.evoloodsen.entities.ContactEntity;
+import ru.evoloodsen.pages.AddContactPage;
 import ru.evoloodsen.pages.LoginPage;
+import ru.evoloodsen.pages.LogsPage;
 import ru.evoloodsen.pages.MainPage;
-
-import static com.codeborne.selenide.Selenide.open;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
  * Date: 22.04.2025
  */
 
-public class TestClass {
+public class TestClass extends BaseClass {
 
     private static final Logger logger = LoggerFactory.getLogger(TestClass.class);
 
+    private ContactEntity contactEntity;
 
-    private LoginPage loginPage;
-
-    private static final String ADMIN_LOGIN = "admin";
-    private static final String ADMIN_PASSWORD = "root";
-
-    @BeforeClass(alwaysRun = true)
-    public void precondition() {
-        logger.info("=== PREPARE TESTS START ===");
-        Configuration.browser = "chrome";
-        Configuration.pageLoadStrategy = "normal";
-        Configuration.baseUrl = "http://localhost:12301/";
-        Configuration.headless = false;
-        logger.info("=== PREPARE TESTS FINISH ===");
-        open(Configuration.baseUrl);
-        logger.info("Open page {}", Configuration.baseUrl);
+    @BeforeClass
+    public void prepareCondition() {
+        contactEntity = new ContactEntity();
+        contactEntity.withName("123")
+                .withMiddleName("345")
+                .withLastName("456");
     }
 
     @Test
-    public void loginInSite() {
-        loginPage = new LoginPage();
-        String nonLoginPopupMessage = loginPage.getAlertPopupText();
-        Assert.assertEquals(nonLoginPopupMessage, LoginPage.NON_LOGIN_MESSAGE);
-
-        MainPage mainPage = loginPage.enterLoginData(ADMIN_LOGIN)
-                .enterPasswordData(ADMIN_PASSWORD)
-                .pressLogin();
-
-        String successPopupMessage = mainPage.getAlertPopupText();
-        String successPopupColor = mainPage.getSuccessPopupColor();
-
-        Assert.assertEquals(successPopupMessage, MainPage.SUCCESS_POPUP_TEXT);
-        Assert.assertEquals(successPopupColor, MainPage.SUCCESS_POPUP_COLOR);
-
-        loginPage = mainPage.clickLogoutButton();
-
-        String logoutPopupMessage = loginPage.getAlertPopupText();
-        Assert.assertEquals(logoutPopupMessage, LoginPage.LOGOUT_POPUP_TEXT);
+    public void testNavBar() throws InterruptedException {
+        MainPage mainPage = loginInSite();
+        AddContactPage addContactPage = mainPage.goToAddContactPage();
+        Thread.sleep(2000);
+        addContactPage.fillContactData(contactEntity);
+        Thread.sleep(2000);
     }
 
 }
