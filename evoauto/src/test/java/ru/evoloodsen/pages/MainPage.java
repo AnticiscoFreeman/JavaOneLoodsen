@@ -31,10 +31,6 @@ public class MainPage extends BasePage {
                 .shouldHave(Condition.visible).getText();
     }
 
-    public LoginPage logout() {
-        return navigationBar.clickLogoutButton();
-    }
-
     public AddContactPage goToAddContactPage() {
         addContactButton.click();
         return new AddContactPage();

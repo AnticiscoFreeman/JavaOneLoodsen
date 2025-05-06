@@ -15,4 +15,24 @@ public class BasePage {
     public NavigationBar getNavigationBar() {
         return navigationBar;
     }
+
+    public LoginPage logout() {
+        return navigationBar.clickLogoutButton();
+    }
+
+    public MainPage goToAddressBookPage() {
+        return navigationBar.clickAddressBookButton();
+    }
+
+    public UserPage goToUserPage() {
+        return navigationBar.clickUserButton();
+    }
+
+    public LogsPage goToLogsPage() {
+        return navigationBar.clickLogsButton();
+    }
+
+    public ApiPage goToApiPage() {
+        return navigationBar.clickApiButton();
+    }
 }

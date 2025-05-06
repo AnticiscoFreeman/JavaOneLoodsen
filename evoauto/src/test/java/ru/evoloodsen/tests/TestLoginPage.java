@@ -2,7 +2,7 @@ package ru.evoloodsen.tests;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import ru.evoloodsen.BaseClass;
+import ru.evoloodsen.BaseTestClass;
 import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.pages.LoginPage;
 import ru.evoloodsen.pages.MainPage;
@@ -12,13 +12,11 @@ import ru.evoloodsen.pages.MainPage;
  * Date: 22.04.2025
  */
 
-public class TestLoginPage extends BaseClass {
-
-    private LoginPage loginPage;
+public class TestLoginPage extends BaseTestClass {
 
     @Test
     public void testLoginAndLogoutSite() {
-        loginPage = new LoginPage();
+        LoginPage loginPage = new LoginPage();
         String nonLoginPopupMessage = loginPage.getAlertPopupText();
         Assert.assertEquals(nonLoginPopupMessage, PagePopup.NON_LOGIN_MESSAGE);
 
