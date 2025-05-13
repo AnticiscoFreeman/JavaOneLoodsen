@@ -11,8 +11,8 @@ public class ContactEntity {
     private String name;
     private String middleName;
     private String lastName;
-    private Long phoneNumber;
-    private Long mobileNumber;
+    private String phoneNumber;
+    private String mobileNumber;
     private String email;
     private LocalDate birthDate;
     private String address1;
@@ -20,6 +20,51 @@ public class ContactEntity {
     private String city;
     private String country;
     private String postCode;
+
+    public ContactEntity withPostCode(String data) {
+        this.postCode = data;
+        return this;
+    }
+
+    public ContactEntity withCountry(String data) {
+        this.country = data;
+        return this;
+    }
+
+    public ContactEntity withCity(String data) {
+        this.city = data;
+        return this;
+    }
+
+    public ContactEntity withAddress2(String data) {
+        this.address2 = data;
+        return this;
+    }
+
+    public ContactEntity withAddress1(String data) {
+        this.address1 = data;
+        return this;
+    }
+
+    public ContactEntity withBirthDate(LocalDate data) {
+        this.birthDate = data;
+        return this;
+    }
+
+    public ContactEntity withEmail(String data) {
+        this.email = data;
+        return this;
+    }
+
+    public ContactEntity withPhoneNumber(String data) {
+        this.phoneNumber = data;
+        return this;
+    }
+
+    public ContactEntity withMobileNumber(String data) {
+        this.mobileNumber = data;
+        return this;
+    }
 
     public ContactEntity withName(String data) {
         this.name = data;
@@ -48,11 +93,11 @@ public class ContactEntity {
         return lastName;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public Long getMobileNumber() {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
@@ -82,5 +127,9 @@ public class ContactEntity {
 
     public String getPostCode() {
         return postCode;
+    }
+
+    public String getFullName() {
+        return String.format("%s %s %s", name, middleName, lastName);
     }
 }

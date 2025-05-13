@@ -1,12 +1,14 @@
-package ru.evoloodsen.pages;
+package ru.evoloodsen.pages.mainPage;
 
-import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.elements.Button;
+import ru.evoloodsen.elements.Input;
 import ru.evoloodsen.elements.UiComponentFactory;
+import ru.evoloodsen.pages.AddContactPage;
+import ru.evoloodsen.pages.BasePage;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
@@ -17,32 +19,31 @@ public class MainPage extends BasePage {
     private static final Logger logger = LoggerFactory.getLogger(MainPage.class);
 
     public static final By ADD_CONTACT_BUTTON = By.cssSelector("a[data-testid='add_contact']");
+    public static final By FIND_INPUT = By.cssSelector("input[type='search']");
 
+    private final ContactTable contactTable = new ContactTable();
     private final Button addContactButton = UiComponentFactory.createButton(ADD_CONTACT_BUTTON);
-
+    private final Input findInput = UiComponentFactory.createInput(FIND_INPUT);
 
     public MainPage() {
         logger.info("Navigate to MainPage");
     }
 
-    public String getAlertPopupText() {
-        return UiComponentFactory.createPagePopup(PagePopup.SELF)
-                .getElement()
-                .shouldHave(Condition.visible).getText();
+    public MainPage findContact(String searchText) {
+        findInput.fillData(searchText);
+        return this;
     }
 
-    public LoginPage logout() {
-        return navigationBar.clickLogoutButton();
+    public ContactTable getContactTable() {
+        return contactTable;
+    }
+
+    public PagePopup getPagePopup() {
+        return pagePopup;
     }
 
     public AddContactPage goToAddContactPage() {
         addContactButton.click();
         return new AddContactPage();
-    }
-
-    public String getSuccessPopupColor() {
-        return UiComponentFactory.createPagePopup(PagePopup.SELF)
-                .getElement().shouldHave(Condition.visible)
-                .getCssValue("background-image");
     }
 }

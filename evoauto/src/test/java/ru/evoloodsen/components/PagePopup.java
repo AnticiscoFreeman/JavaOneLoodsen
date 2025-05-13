@@ -1,5 +1,6 @@
 package ru.evoloodsen.components;
 
+import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import ru.evoloodsen.elements.UiComponent;
 
@@ -19,5 +20,13 @@ public class PagePopup extends UiComponent {
 
     public PagePopup(By selfSelector) {
         super(selfSelector);
+    }
+
+    public String getText() {
+        return element.shouldBe(Condition.visible).getText();
+    }
+
+    public String getBackgroundColor() {
+        return element.shouldBe(Condition.visible).getCssValue("background-image");
     }
 }

@@ -22,6 +22,10 @@ dependencies {
     testImplementation('org.assertj:assertj-core:3.27.3')
     testImplementation('org.slf4j:slf4j-simple:2.0.17')
     testImplementation('org.testng:testng:7.11.0')
+
+    testImplementation('com.github.javafaker:javafaker:1.0.2')
+    testCompileOnly('org.projectlombok:lombok:1.18.32')
+    testAnnotationProcessor('org.projectlombok:lombok:1.18.32')
 }
 
 test {

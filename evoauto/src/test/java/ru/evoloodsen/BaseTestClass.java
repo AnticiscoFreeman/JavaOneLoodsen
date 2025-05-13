@@ -3,12 +3,9 @@ package ru.evoloodsen;
 import com.codeborne.selenide.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.pages.LoginPage;
-import ru.evoloodsen.pages.MainPage;
+import ru.evoloodsen.pages.mainPage.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
 
@@ -17,9 +14,9 @@ import static com.codeborne.selenide.Selenide.open;
  * Date: 22.04.2025
  */
 
-public class BaseClass {
+public class BaseTestClass {
 
-    private static final Logger logger = LoggerFactory.getLogger(BaseClass.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseTestClass.class);
 
     private LoginPage loginPage;
 

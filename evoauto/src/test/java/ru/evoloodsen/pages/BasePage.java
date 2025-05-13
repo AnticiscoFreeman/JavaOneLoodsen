@@ -1,7 +1,9 @@
 package ru.evoloodsen.pages;
 
 import ru.evoloodsen.components.NavigationBar;
+import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.elements.UiComponentFactory;
+import ru.evoloodsen.pages.mainPage.MainPage;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
@@ -11,8 +13,33 @@ import ru.evoloodsen.elements.UiComponentFactory;
 public class BasePage {
 
     protected NavigationBar navigationBar = UiComponentFactory.createNavigationBar(NavigationBar.SELF);
+    protected final PagePopup pagePopup = UiComponentFactory.createPagePopup(PagePopup.SELF);
 
     public NavigationBar getNavigationBar() {
         return navigationBar;
+    }
+
+    public PagePopup getPagePopup(){
+        return pagePopup;
+    }
+
+    public LoginPage logout() {
+        return navigationBar.clickLogoutButton();
+    }
+
+    public MainPage goToAddressBookPage() {
+        return navigationBar.clickAddressBookButton();
+    }
+
+    public UserPage goToUserPage() {
+        return navigationBar.clickUserButton();
+    }
+
+    public LogsPage goToLogsPage() {
+        return navigationBar.clickLogsButton();
+    }
+
+    public ApiPage goToApiPage() {
+        return navigationBar.clickApiButton();
     }
 }

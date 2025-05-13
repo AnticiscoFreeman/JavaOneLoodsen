@@ -4,8 +4,8 @@ import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.elements.UiComponentFactory;
+import ru.evoloodsen.pages.mainPage.MainPage;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -14,7 +14,7 @@ import static com.codeborne.selenide.Selenide.$;
  * Date: 29.04.2025
  */
 
-public class LoginPage {
+public class LoginPage extends BasePage {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
@@ -28,13 +28,6 @@ public class LoginPage {
     public LoginPage() {
         $(TITLE).shouldHave(Condition.visible).shouldHave(Condition.text(TITLE_TEXT));
         logger.info("Navigate to LoginPage");
-    }
-
-    public String getAlertPopupText() {
-        return UiComponentFactory.createPagePopup(PagePopup.SELF)
-                .getElement()
-                .shouldHave(Condition.visible)
-                .getText();
     }
 
     public LoginPage enterLoginData(String login) {

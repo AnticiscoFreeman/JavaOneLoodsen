@@ -6,6 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import ru.evoloodsen.elements.UiComponent;
 import ru.evoloodsen.pages.*;
+import ru.evoloodsen.pages.mainPage.MainPage;
 
 import java.util.NoSuchElementException;
 
@@ -67,7 +68,7 @@ public class NavigationBar extends UiComponent {
         return new ApiPage();
     }
 
-    private SelenideElement getFindButton(String findButtonText) {
+    private SelenideElement getFindButtonFor(String findButtonText) {
         ElementsCollection allMenuButtons = element.findAll(MENU_ITEM);
         for (int i = 0; i < allMenuButtons.size(); i++) {
             SelenideElement button = allMenuButtons.get(i);
@@ -76,12 +77,13 @@ public class NavigationBar extends UiComponent {
                 return button;
             }
         }
-
-//        return allMenuButtons.stream()
-//                .filter(button -> button.find("a").getText().equals(findButtonText))
-//                .findFirst()
-//                .orElseThrow(() -> new NoSuchElementException("Button " + findButtonText + " not find"));
-
         throw new RuntimeException("Button " + findButtonText + " not find");
+    }
+
+    private SelenideElement getFindButton(String findButtonText) {
+        return element.findAll(MENU_ITEM).stream()
+                .filter(button -> button.find("a").getText().equals(findButtonText))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Button " + findButtonText + " not find"));
     }
 }
