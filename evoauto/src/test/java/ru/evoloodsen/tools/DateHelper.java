@@ -13,9 +13,13 @@ import java.util.Locale;
 
 public class DateHelper {
 
-    public final static Locale RU_LOCALE = new Locale("ru");
+    public final static String FULL_DATE_PATTERN_1 = "dst MMMM yyyy";
+    public final static String FULL_DATE_PATTERN_2 = "dnd MMMM yyyy";
+    public final static String FULL_DATE_PATTERN_3 = "drd MMMM yyyy";
+    public final static String FULL_DATE_PATTERN_NEXT = "dth MMMM yyyy";
+    public final static String MONTH_YEAR_DATE_PATTERN = "MMMM yyyy";
 
     public static String transformLocalDateToString(LocalDate date, String pattern) {
-        return date.format(DateTimeFormatter.ofPattern(pattern, RU_LOCALE));
+        return date.format(DateTimeFormatter.ofPattern(pattern));
     }
 }

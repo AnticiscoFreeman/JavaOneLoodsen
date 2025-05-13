@@ -1,14 +1,19 @@
 package ru.evoloodsen.tests;
 
 import com.github.javafaker.Faker;
+import org.assertj.core.api.SoftAssertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import ru.evoloodsen.BaseTestClass;
+import ru.evoloodsen.components.PagePopup;
+import ru.evoloodsen.elements.Table;
 import ru.evoloodsen.entities.ContactEntity;
-import ru.evoloodsen.pages.AddContactPage;
+import ru.evoloodsen.pages.AddEditContactPage;
+import ru.evoloodsen.pages.cotactInfoPage.ContactInfoPage;
+import ru.evoloodsen.pages.cotactInfoPage.ContactInfoTitle;
 import ru.evoloodsen.pages.mainPage.MainPage;
 import ru.evoloodsen.pages.mainPage.models.ContactTableDto;
 
@@ -27,14 +32,14 @@ public class TestClass extends BaseTestClass {
 
     private Faker faker = Faker.instance();
 
-    private ContactEntity contactEntity;
+    private ContactEntity contactForSave;
 
     private MainPage mainPage;
 
     @BeforeClass
     public void prepareCondition() {
-        contactEntity = new ContactEntity();
-        contactEntity.withName(faker.elderScrolls().firstName())
+        contactForSave = new ContactEntity();
+        contactForSave.withName(faker.elderScrolls().firstName())
                 .withMiddleName(faker.elderScrolls().race())
                 .withLastName(faker.elderScrolls().lastName())
                 .withPhoneNumber(String.format("8%s", faker.number().digits(11)))
@@ -54,33 +59,74 @@ public class TestClass extends BaseTestClass {
     @Test
     public void testCreateContact() {
         mainPage = loginInSite();
-        AddContactPage addContactPage = mainPage.goToAddContactPage();
-        mainPage = addContactPage.fillContactData(contactEntity).saveContact();
+        AddEditContactPage addEditContactPage = mainPage.goToAddContactPage();
+        mainPage = addEditContactPage.fillContactData(contactForSave).saveContact();
 
-        mainPage.findContact(contactEntity.getEmail());
+        mainPage.findContact(contactForSave.getEmail());
         ContactTableDto firstContact = mainPage.getContactTable().getFirstTableContact();
 
         assertThat(firstContact.getName())
                 .as("Check Contact FullName")
-                .isEqualTo(contactEntity.getFullName());
+                .isEqualTo(contactForSave.getFullName());
         assertThat(firstContact.getCity())
                 .as("Check Contact City")
-                .isEqualTo(contactEntity.getCity());
+                .isEqualTo(contactForSave.getCity());
         assertThat(firstContact.getPhoneNumber())
                 .as("Check Contact MobilePhone")
-                .isEqualTo(contactEntity.getMobileNumber());
+                .isEqualTo(contactForSave.getMobileNumber());
         assertThat(firstContact.getEmail())
                 .as("Check Contact Email")
-                .isEqualTo(contactEntity.getEmail());
+                .isEqualTo(contactForSave.getEmail());
 
-        mainPage.getContactTable().navigateToFirstTableContactPageByRow();
+        ContactInfoPage contactInfoPage = mainPage.getContactTable().navigateToFirstTableContactPageByRow();
+        String actualFullName = contactInfoPage.getValueByTitle(ContactInfoTitle.FULL_NAME);
+        String actualHomePhone = contactInfoPage.getValueByTitle(ContactInfoTitle.HOME_NUMBER);
+        String actualMobilePhone = contactInfoPage.getValueByTitle(ContactInfoTitle.MOBILE_NUMBER);
+        String actualEmail = contactInfoPage.getValueByTitle(ContactInfoTitle.EMAIL);
+        String actualBirthDate = contactInfoPage.getValueByTitle(ContactInfoTitle.BIRTH_DATE);
+        String actualAddress = contactInfoPage.getValueByTitle(ContactInfoTitle.ADDRESS);
+        SoftAssertions.assertSoftly(sa -> {
+            sa.assertThat(actualFullName)
+                    .as("Check Contact FullName on ContactInfo Page")
+                    .isEqualTo(contactForSave.getFullName());
+            sa.assertThat(actualHomePhone)
+                    .as("Check Contact Home Phone on ContactInfo Page")
+                    .isEqualTo(contactForSave.getPhoneNumber());
+            sa.assertThat(actualMobilePhone)
+                    .as("Check Contact Mobile Phone on ContactInfo Page")
+                    .isEqualTo(contactForSave.getMobileNumber());
+            sa.assertThat(actualEmail)
+                    .as("Check Contact Email on ContactInfo Page")
+                    .isEqualTo(contactForSave.getEmail());
+            sa.assertThat(actualBirthDate)
+                    .as("Check Contact Date on ContactInfo Page")
+                    .contains(contactForSave.getMonthYearBirthDate());
+            sa.assertThat(actualAddress)
+                    .as("Check Contact Home Phone on ContactInfo Page")
+                    .isEqualTo(contactForSave.getFullAddress());
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+            mainPage = contactInfoPage.navigateToDeleteContact().deleteContact();
+            String deleteTextPopup = mainPage.getPagePopup().getText();
+            assertThat(deleteTextPopup)
+                    .as("Check Delete Text Popup")
+                    .isEqualTo(PagePopup.DELETE_CONTACT_TEXT);
+
+            mainPage.findContact(contactForSave.getEmail());
+            String emptyRowText = mainPage.getContactTable().getEmptyRowText();
+            assertThat(emptyRowText)
+                    .as("Check Empty Row In Contact Table")
+                    .isEqualTo(Table.EMPTY_ROW_TEXT);
+        });
+
     }
+
+//    @Test
+//    public void testViewContact() {
+//        mainPage = loginInSite();
+//        ContactInfoPage contactInfoPage = mainPage.getContactTable().navigateToFirstTableContactPageByRow();
+//        String s = contactInfoPage.getValueByTitle(ContactInfoTitle.FULL_NAME);
+//        System.out.println("s > " + s);
+//    }
 
     @AfterClass
     public void afterAction() {

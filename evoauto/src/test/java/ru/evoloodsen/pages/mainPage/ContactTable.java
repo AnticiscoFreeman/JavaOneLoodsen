@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.evoloodsen.elements.Table;
-import ru.evoloodsen.pages.ContactInfoPage;
+import ru.evoloodsen.pages.cotactInfoPage.ContactInfoPage;
 import ru.evoloodsen.pages.mainPage.models.ContactTableDto;
 
 /**
@@ -18,11 +18,18 @@ import ru.evoloodsen.pages.mainPage.models.ContactTableDto;
 public class ContactTable extends Table {
 
     private static final By SELF = By.cssSelector("table[data-testid='contacts_table']");
+    private static final By EMPTY_ROW = By.cssSelector(".dataTables_empty");
+
     private static final String VIEW_BUTTON_TEXT = "View";
+
     private static final Logger logger = LoggerFactory.getLogger(ContactTable.class);
 
     public ContactTable() {
         super(SELF);
+    }
+
+    public String getEmptyRowText() {
+        return element.find(EMPTY_ROW).getText();
     }
 
     public ContactTableDto getContactByRow(int rowNumber) {

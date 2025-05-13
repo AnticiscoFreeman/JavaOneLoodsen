@@ -18,12 +18,12 @@ import static com.codeborne.selenide.Selenide.$;
  * Date: 29.04.2025
  */
 
-public class AddContactPage extends BasePage {
-    private static final Logger logger = LoggerFactory.getLogger(AddContactPage.class);
+public class AddEditContactPage extends BasePage {
+    private static final Logger logger = LoggerFactory.getLogger(AddEditContactPage.class);
 
-    public static final String TITLE_VALUE = "Add Contact";
+    public static final String ADD_TITLE_VALUE = "Add Contact";
+    public static final String UPDATE_TITLE_VALUE = "%s - Update Contact";
 
-    public static final By TITLE = By.cssSelector("h2");
     public static final By SUBMIT_BUTTON = By.cssSelector("button[type='submit']");
 
     private final Input firstName = UiComponentFactory.createInput(getInputByName("first_name"));
@@ -44,12 +44,18 @@ public class AddContactPage extends BasePage {
         return By.cssSelector(String.format("input[name='%s']", name));
     }
 
-    public AddContactPage() {
+    public AddEditContactPage() {
         logger.info("Navigate to AddContactPage");
-        $(TITLE).shouldHave(Condition.visible).shouldHave(Condition.text(TITLE_VALUE));
+        $(TITLE).shouldHave(Condition.visible).shouldHave(Condition.text(ADD_TITLE_VALUE));
     }
 
-    public AddContactPage fillContactData(ContactEntity contactEntityData) {
+    public AddEditContactPage(String contactName) {
+        logger.info("Navigate to UpdateContactPage");
+        String title = String.format(UPDATE_TITLE_VALUE, contactName);
+        $(TITLE).shouldHave(Condition.visible).shouldHave(Condition.text(title));
+    }
+
+    public AddEditContactPage fillContactData(ContactEntity contactEntityData) {
         firstName.fillData(contactEntityData.getName());
         middleName.fillData(contactEntityData.getMiddleName());
         lastName.fillData(contactEntityData.getLastName());

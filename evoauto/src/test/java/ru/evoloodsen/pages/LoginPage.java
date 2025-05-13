@@ -18,7 +18,6 @@ public class LoginPage extends BasePage {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
-    private static final By TITLE = By.cssSelector("h2");
     private static final By INPUT_LOGIN = By.name("username");
     private static final By INPUT_PASSWORD = By.name("password");
     private static final By LOGIN_BUTTON = By.cssSelector("button[name='submit']");

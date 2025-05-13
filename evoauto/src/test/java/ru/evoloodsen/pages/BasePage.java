@@ -1,5 +1,6 @@
 package ru.evoloodsen.pages;
 
+import org.openqa.selenium.By;
 import ru.evoloodsen.components.NavigationBar;
 import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.elements.UiComponentFactory;
@@ -11,6 +12,8 @@ import ru.evoloodsen.pages.mainPage.MainPage;
  */
 
 public class BasePage {
+
+    protected static final By TITLE = By.cssSelector("h2");
 
     protected NavigationBar navigationBar = UiComponentFactory.createNavigationBar(NavigationBar.SELF);
     protected final PagePopup pagePopup = UiComponentFactory.createPagePopup(PagePopup.SELF);

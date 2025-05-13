@@ -7,7 +7,7 @@ import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.elements.Button;
 import ru.evoloodsen.elements.Input;
 import ru.evoloodsen.elements.UiComponentFactory;
-import ru.evoloodsen.pages.AddContactPage;
+import ru.evoloodsen.pages.AddEditContactPage;
 import ru.evoloodsen.pages.BasePage;
 
 /**
@@ -42,8 +42,8 @@ public class MainPage extends BasePage {
         return pagePopup;
     }
 
-    public AddContactPage goToAddContactPage() {
+    public AddEditContactPage goToAddContactPage() {
         addContactButton.click();
-        return new AddContactPage();
+        return new AddEditContactPage();
     }
 }

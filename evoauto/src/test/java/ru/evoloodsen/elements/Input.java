@@ -23,4 +23,9 @@ public class Input extends UiComponent {
         element.sendKeys(data);
         logger.info("User click [Input:{}] and send data [{}]", inputName, data);
     }
+
+    public void clickCheckBox() {
+        element.click();
+        logger.info("User click for Confirm Checkbox");
+    }
 }

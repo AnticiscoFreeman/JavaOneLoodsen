@@ -1,5 +1,7 @@
 package ru.evoloodsen.entities;
 
+import ru.evoloodsen.tools.DateHelper;
+
 import java.time.LocalDate;
 
 /**
@@ -107,6 +109,16 @@ public class ContactEntity {
 
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+
+    public String getFullAddress() {
+        //            Adrianne, Cronin, Cristobalshire, Gambia, 153662
+        return String.format("%s, %s, %s, %s, %s",
+                address1, address2, city, country, postCode);
+    }
+
+    public String getMonthYearBirthDate() {
+        return DateHelper.transformLocalDateToString(birthDate, DateHelper.MONTH_YEAR_DATE_PATTERN);
     }
 
     public String getAddress1() {
