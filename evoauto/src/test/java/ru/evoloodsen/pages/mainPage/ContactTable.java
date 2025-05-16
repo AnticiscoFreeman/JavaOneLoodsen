@@ -58,7 +58,7 @@ public class ContactTable extends Table {
         return new ContactInfoPage(contactName);
     }
 
-    public ContactInfoPage navigateToFirstTableContactPageByRow() {
+    public ContactInfoPage navigateToFirstTableRowContactPage() {
         return navigateToContactPageByRow(0);
     }
 

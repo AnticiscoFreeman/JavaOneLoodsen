@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import ru.evoloodsen.elements.UiComponent;
 import ru.evoloodsen.pages.*;
 import ru.evoloodsen.pages.mainPage.MainPage;
+import ru.evoloodsen.pages.userPage.UserPage;
 
 import java.util.NoSuchElementException;
 

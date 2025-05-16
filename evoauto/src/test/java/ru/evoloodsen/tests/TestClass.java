@@ -1,7 +1,6 @@
 package ru.evoloodsen.tests;
 
 import com.github.javafaker.Faker;
-import org.assertj.core.api.SoftAssertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
@@ -10,14 +9,14 @@ import org.testng.annotations.Test;
 import ru.evoloodsen.BaseTestClass;
 import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.elements.Table;
-import ru.evoloodsen.entities.ContactEntity;
-import ru.evoloodsen.pages.AddEditContactPage;
-import ru.evoloodsen.pages.cotactInfoPage.ContactInfoPage;
-import ru.evoloodsen.pages.cotactInfoPage.ContactInfoTitle;
+import ru.evoloodsen.entities.UserEntity;
+import ru.evoloodsen.pages.userPage.DeleteUserPage;
+import ru.evoloodsen.pages.userPage.UserPage;
 import ru.evoloodsen.pages.mainPage.MainPage;
-import ru.evoloodsen.pages.mainPage.models.ContactTableDto;
+import ru.evoloodsen.pages.userPage.models.UserAction;
+import ru.evoloodsen.pages.userPage.models.UserTableDto;
 
-import java.time.LocalDate;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,108 +28,60 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestClass extends BaseTestClass {
 
     private static final Logger logger = LoggerFactory.getLogger(TestClass.class);
+    private static final Locale CURRENT_LOCALE = Locale.ENGLISH;
 
-    private Faker faker = Faker.instance();
+    private final Faker faker = Faker.instance();
 
-    private ContactEntity contactForSave;
+    private UserEntity userEntity;
 
     private MainPage mainPage;
 
     @BeforeClass
     public void prepareCondition() {
-        contactForSave = new ContactEntity();
-        contactForSave.withName(faker.elderScrolls().firstName())
-                .withMiddleName(faker.elderScrolls().race())
-                .withLastName(faker.elderScrolls().lastName())
-                .withPhoneNumber(String.format("8%s", faker.number().digits(11)))
-                .withMobileNumber(String.format("8%s", faker.number().digits(11)))
-                .withEmail(String.format("email%s@test.com", faker.number().digits(10)))
-                .withBirthDate(LocalDate.of(
-                        faker.number().numberBetween(1900, 2025),
-                        faker.number().numberBetween(1, 12),
-                        faker.number().numberBetween(1, 28)))
-                .withAddress1(faker.address().firstName())
-                .withAddress2(faker.address().lastName())
-                .withCity(faker.address().city())
-                .withCountry(faker.address().country())
-                .withPostCode(faker.number().digits(6));
+        userEntity = new UserEntity();
+        userEntity.withFullName(faker.artist().name())
+                .withUsername(String.format("user%s", faker.number().digits(8)))
+                .withPassword(String.format("Password%s", faker.number().digits(8)));
     }
 
     @Test
     public void testCreateContact() {
         mainPage = loginInSite();
-        AddEditContactPage addEditContactPage = mainPage.goToAddContactPage();
-        mainPage = addEditContactPage.fillContactData(contactForSave).saveContact();
+        UserPage userPage = mainPage.goToUserPage();
+        mainPage = userPage.goToAddUserPage().fillNewUserData(userEntity).saveNewUser();
+        String successUserCreateText = mainPage.getPagePopup().getText();
+        assertThat(successUserCreateText)
+                .as("Check Popup Text Success Create User")
+                .isEqualTo(PagePopup.SUCCESS_USER_CREATE);
 
-        mainPage.findContact(contactForSave.getEmail());
-        ContactTableDto firstContact = mainPage.getContactTable().getFirstTableContact();
+        mainPage.goToUserPage();
+        userPage.findUser(userEntity.getUsername());
+        UserTableDto firstUser = userPage.getUserTable().getFirstTableUser();
 
-        assertThat(firstContact.getName())
-                .as("Check Contact FullName")
-                .isEqualTo(contactForSave.getFullName());
-        assertThat(firstContact.getCity())
-                .as("Check Contact City")
-                .isEqualTo(contactForSave.getCity());
-        assertThat(firstContact.getPhoneNumber())
-                .as("Check Contact MobilePhone")
-                .isEqualTo(contactForSave.getMobileNumber());
-        assertThat(firstContact.getEmail())
-                .as("Check Contact Email")
-                .isEqualTo(contactForSave.getEmail());
+        assertThat(firstUser.getName())
+                .as("Check User Name")
+                .isEqualTo(userEntity.getFullName());
+        assertThat(firstUser.getUsername())
+                .as("Check User UserName")
+                .isEqualTo(userEntity.getUsername());
 
-        ContactInfoPage contactInfoPage = mainPage.getContactTable().navigateToFirstTableContactPageByRow();
-        String actualFullName = contactInfoPage.getValueByTitle(ContactInfoTitle.FULL_NAME);
-        String actualHomePhone = contactInfoPage.getValueByTitle(ContactInfoTitle.HOME_NUMBER);
-        String actualMobilePhone = contactInfoPage.getValueByTitle(ContactInfoTitle.MOBILE_NUMBER);
-        String actualEmail = contactInfoPage.getValueByTitle(ContactInfoTitle.EMAIL);
-        String actualBirthDate = contactInfoPage.getValueByTitle(ContactInfoTitle.BIRTH_DATE);
-        String actualAddress = contactInfoPage.getValueByTitle(ContactInfoTitle.ADDRESS);
-        SoftAssertions.assertSoftly(sa -> {
-            sa.assertThat(actualFullName)
-                    .as("Check Contact FullName on ContactInfo Page")
-                    .isEqualTo(contactForSave.getFullName());
-            sa.assertThat(actualHomePhone)
-                    .as("Check Contact Home Phone on ContactInfo Page")
-                    .isEqualTo(contactForSave.getPhoneNumber());
-            sa.assertThat(actualMobilePhone)
-                    .as("Check Contact Mobile Phone on ContactInfo Page")
-                    .isEqualTo(contactForSave.getMobileNumber());
-            sa.assertThat(actualEmail)
-                    .as("Check Contact Email on ContactInfo Page")
-                    .isEqualTo(contactForSave.getEmail());
-            sa.assertThat(actualBirthDate)
-                    .as("Check Contact Date on ContactInfo Page")
-                    .contains(contactForSave.getMonthYearBirthDate());
-            sa.assertThat(actualAddress)
-                    .as("Check Contact Home Phone on ContactInfo Page")
-                    .isEqualTo(contactForSave.getFullAddress());
+        DeleteUserPage deleteUserPage = userPage.getUserTable().deleteUserByRow(0);
+        mainPage = deleteUserPage.deleteContact();
+        String successDeleteUserText = mainPage.getPagePopup().getText();
+        assertThat(successDeleteUserText)
+                .as("Check Popup Text Success Delete User")
+                .isEqualTo(PagePopup.SUCCESS_USER_DELETE);
 
-            mainPage = contactInfoPage.navigateToDeleteContact().deleteContact();
-            String deleteTextPopup = mainPage.getPagePopup().getText();
-            assertThat(deleteTextPopup)
-                    .as("Check Delete Text Popup")
-                    .isEqualTo(PagePopup.DELETE_CONTACT_TEXT);
-
-            mainPage.findContact(contactForSave.getEmail());
-            String emptyRowText = mainPage.getContactTable().getEmptyRowText();
-            assertThat(emptyRowText)
-                    .as("Check Empty Row In Contact Table")
-                    .isEqualTo(Table.EMPTY_ROW_TEXT);
-        });
-
+        userPage = mainPage.goToUserPage();
+        userPage.findUser(userEntity.getUsername());
+        String emptyRowText = userPage.getUserTable().getEmptyRowText();
+        assertThat(emptyRowText)
+                .as("Check Empty Row In User Table")
+                .isEqualTo(Table.EMPTY_ROW_TEXT);
     }
 
-//    @Test
-//    public void testViewContact() {
-//        mainPage = loginInSite();
-//        ContactInfoPage contactInfoPage = mainPage.getContactTable().navigateToFirstTableContactPageByRow();
-//        String s = contactInfoPage.getValueByTitle(ContactInfoTitle.FULL_NAME);
-//        System.out.println("s > " + s);
-//    }
-
-    @AfterClass
+    @AfterClass()
     public void afterAction() {
         mainPage.logout();
     }
-
 }

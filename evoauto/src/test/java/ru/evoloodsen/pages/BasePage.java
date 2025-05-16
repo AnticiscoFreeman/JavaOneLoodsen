@@ -5,6 +5,7 @@ import ru.evoloodsen.components.NavigationBar;
 import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.elements.UiComponentFactory;
 import ru.evoloodsen.pages.mainPage.MainPage;
+import ru.evoloodsen.pages.userPage.UserPage;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
@@ -18,8 +19,8 @@ public class BasePage {
     protected NavigationBar navigationBar = UiComponentFactory.createNavigationBar(NavigationBar.SELF);
     protected final PagePopup pagePopup = UiComponentFactory.createPagePopup(PagePopup.SELF);
 
-    public NavigationBar getNavigationBar() {
-        return navigationBar;
+    protected static By getInputByName(String name) {
+        return By.cssSelector(String.format("input[name='%s']", name));
     }
 
     public PagePopup getPagePopup(){

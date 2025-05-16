@@ -1,5 +1,6 @@
 package ru.evoloodsen.entities;
 
+import lombok.Getter;
 import ru.evoloodsen.tools.DateHelper;
 
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
  * Date: 06.05.2025
  */
 
+@Getter
 public class ContactEntity {
     private String name;
     private String middleName;
@@ -83,36 +85,7 @@ public class ContactEntity {
         return this;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
     public String getFullAddress() {
-        //            Adrianne, Cronin, Cristobalshire, Gambia, 153662
         return String.format("%s, %s, %s, %s, %s",
                 address1, address2, city, country, postCode);
     }
@@ -121,24 +94,20 @@ public class ContactEntity {
         return DateHelper.transformLocalDateToString(birthDate, DateHelper.MONTH_YEAR_DATE_PATTERN);
     }
 
-    public String getAddress1() {
-        return address1;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getPostCode() {
-        return postCode;
+    public String getFullBirthDate() {
+        int day = birthDate.getDayOfMonth();
+        String suffix;
+        if (day >= 11 && day <= 13) {
+            suffix = "th";
+        } else {
+            suffix = switch (day % 10) {
+                case 1 -> "st";
+                case 2 -> "nd";
+                case 3 -> "rd";
+                default -> "th";
+            };
+        }
+        return String.format("%s%s %s", day, suffix, DateHelper.transformLocalDateToString(birthDate, DateHelper.MONTH_YEAR_DATE_PATTERN));
     }
 
     public String getFullName() {

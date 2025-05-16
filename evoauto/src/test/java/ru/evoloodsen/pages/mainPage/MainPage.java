@@ -7,7 +7,7 @@ import ru.evoloodsen.components.PagePopup;
 import ru.evoloodsen.elements.Button;
 import ru.evoloodsen.elements.Input;
 import ru.evoloodsen.elements.UiComponentFactory;
-import ru.evoloodsen.pages.AddEditContactPage;
+import ru.evoloodsen.pages.cotactInfoPage.AddEditContactPage;
 import ru.evoloodsen.pages.BasePage;
 
 /**
@@ -18,8 +18,8 @@ import ru.evoloodsen.pages.BasePage;
 public class MainPage extends BasePage {
     private static final Logger logger = LoggerFactory.getLogger(MainPage.class);
 
-    public static final By ADD_CONTACT_BUTTON = By.cssSelector("a[data-testid='add_contact']");
-    public static final By FIND_INPUT = By.cssSelector("input[type='search']");
+    private static final By ADD_CONTACT_BUTTON = By.cssSelector("a[data-testid='add_contact']");
+    private static final By FIND_INPUT = By.cssSelector("input[type='search']");
 
     private final ContactTable contactTable = new ContactTable();
     private final Button addContactButton = UiComponentFactory.createButton(ADD_CONTACT_BUTTON);

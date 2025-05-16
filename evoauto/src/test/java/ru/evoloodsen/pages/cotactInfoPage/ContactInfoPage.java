@@ -8,9 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.evoloodsen.elements.Button;
 import ru.evoloodsen.elements.UiComponentFactory;
-import ru.evoloodsen.pages.AddEditContactPage;
 import ru.evoloodsen.pages.BasePage;
-import ru.evoloodsen.pages.DeleteContactPage;
 
 import java.util.NoSuchElementException;
 

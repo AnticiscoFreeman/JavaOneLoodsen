@@ -1,4 +1,4 @@
-package ru.evoloodsen.pages;
+package ru.evoloodsen.pages.cotactInfoPage;
 
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
@@ -8,6 +8,7 @@ import ru.evoloodsen.elements.Button;
 import ru.evoloodsen.elements.Input;
 import ru.evoloodsen.elements.UiComponentFactory;
 import ru.evoloodsen.entities.ContactEntity;
+import ru.evoloodsen.pages.BasePage;
 import ru.evoloodsen.pages.mainPage.MainPage;
 import ru.evoloodsen.tools.DateHelper;
 
@@ -24,7 +25,7 @@ public class AddEditContactPage extends BasePage {
     public static final String ADD_TITLE_VALUE = "Add Contact";
     public static final String UPDATE_TITLE_VALUE = "%s - Update Contact";
 
-    public static final By SUBMIT_BUTTON = By.cssSelector("button[type='submit']");
+    private static final By SUBMIT_BUTTON = By.cssSelector("button[type='submit']");
 
     private final Input firstName = UiComponentFactory.createInput(getInputByName("first_name"));
     private final Input middleName = UiComponentFactory.createInput(getInputByName("middle_name"));
@@ -40,9 +41,6 @@ public class AddEditContactPage extends BasePage {
     private final Input postalCode = UiComponentFactory.createInput(getInputByName("address_post_code"));
     private final Button submitButton = UiComponentFactory.createButton(SUBMIT_BUTTON);
 
-    private static By getInputByName(String name) {
-        return By.cssSelector(String.format("input[name='%s']", name));
-    }
 
     public AddEditContactPage() {
         logger.info("Navigate to AddContactPage");
@@ -62,7 +60,7 @@ public class AddEditContactPage extends BasePage {
         homePhone.fillData(contactEntityData.getPhoneNumber());
         mobilePhone.fillData(contactEntityData.getMobileNumber());
         email.fillData(contactEntityData.getEmail());
-        birthDay.fillData(DateHelper.transformLocalDateToString(contactEntityData.getBirthDate(), "MM.dd.yyyy"));
+        birthDay.fillData(DateHelper.transformLocalDateToString(contactEntityData.getBirthDate(), "dd.MM.yyyy"));
         address1.fillData(contactEntityData.getAddress1());
         address2.fillData(contactEntityData.getAddress2());
         city.fillData(contactEntityData.getCity());
